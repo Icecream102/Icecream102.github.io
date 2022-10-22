@@ -93,8 +93,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p>[TOC]</p>
-<h2 id="第一章-初识-Docker"><a href="#第一章-初识-Docker" class="headerlink" title="第一章 初识 Docker"></a>第一章 初识 Docker</h2><h3 id="1-1-Docker概念"><a href="#1-1-Docker概念" class="headerlink" title="1.1 Docker概念"></a>1.1 Docker概念</h3><ul>
+        <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><h2 id="第一章-初识-Docker"><a href="#第一章-初识-Docker" class="headerlink" title="第一章 初识 Docker"></a>第一章 初识 Docker</h2><h3 id="1-1-Docker概念"><a href="#1-1-Docker概念" class="headerlink" title="1.1 Docker概念"></a>1.1 Docker概念</h3><ul>
 <li>Docker是一个开源的应用容器引擎</li>
 <li>诞生于2013年初，基于Go语言实现，dotCloud公司出品（后改名Docker Inc）</li>
 <li>Docker可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的Linux机器上</li>
@@ -136,7 +135,7 @@
 </ul>
 <p>​	在这里我们用阿里云镜像加速器，登陆阿里云查看个人加速地址</p>
 <p>​	注意：用阿里云时，每个人家加速器地址不同，然后在终端输入下面指令</p>
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220803182929172.png" alt="image-20220803182929172"></p>
+<p><img src="/images/Docker/image-20220803182929172.png" alt="image-20220803182929172"></p>
 <h2 id="第二章-Docker-命令"><a href="#第二章-Docker-命令" class="headerlink" title="第二章 Docker 命令"></a>第二章 Docker 命令</h2><h3 id="2-1-Docker-服务相关命令（daemon相关命令）"><a href="#2-1-Docker-服务相关命令（daemon相关命令）" class="headerlink" title="2.1 Docker 服务相关命令（daemon相关命令）"></a>2.1 Docker 服务相关命令（daemon相关命令）</h3><ul>
 <li><p>启动docker 服务：</p>
 <ul>
@@ -147,7 +146,7 @@
 <ul>
 <li>&#96;&#96;&#96;shell<br>systemctl restart docker<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 查看docker 服务状态：</span><br><span class="line"></span><br><span class="line">  - ```shell</span><br><span class="line">    systemctl status docker</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220803183528054.png" alt="image-20220803183528054"></p>
+<p><img src="/images/Docker/image-20220803183528054.png" alt="image-20220803183528054"></p>
 </li>
 <li><p>设置开机启动docker：</p>
 <ul>
@@ -158,17 +157,17 @@
 <ul>
 <li>&#96;&#96;&#96;shel<br>docker search 镜像名称<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 拉取镜像：从Docker 仓库下载镜像到本地，镜像名称格式为`名称:版本号`，如果版本号不指定则是最新的版本。如果不知道镜像版本，可以去docker hub 搜索对应镜像查看</span><br><span class="line"></span><br><span class="line">  - ```shell</span><br><span class="line">    docker pull 镜像名称</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220803184935974.png" alt="image-20220803184935974"></p>
+<p><img src="/images/Docker/image-20220803184935974.png" alt="image-20220803184935974"></p>
 </li>
 <li><p>删除镜像：删除本地镜像</p>
 <ul>
 <li>&#96;&#96;&#96;shell<br>docker rmi 镜像id&#x2F;名称号:版本号 #删除指定本地镜像<br>docker images -q #查询所有镜像id<br>docker rmi ‘docker images -q’ #删除所有本地镜像<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 2.3 Docker 容器相关命令</span><br><span class="line"></span><br><span class="line">- 查看容器</span><br><span class="line"></span><br><span class="line">  - ```shell</span><br><span class="line">    docker ps #查看正在运行的容器</span><br><span class="line">    docker ps -a #查看所有容器</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220803195813586.png" alt="image-20220803195813586"></p>
+<p><img src="/images/Docker/image-20220803195813586.png" alt="image-20220803195813586"></p>
 </li>
 <li><p>创建并启动容器</p>
 <ul>
-<li>&#96;&#96;&#96;shell<br>docker run 参数 版本:版本号 &lt;&#x2F;bin&#x2F;bash&gt;#默认为&#x2F;bin&#x2F;bash<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 参数说明：</span><br><span class="line"></span><br><span class="line">    - `-i`：保持容器运行。通常与`-t`同时使用。加入`it`这两个参数后，容器创建后自动进入容器中，退出容器后，容器自动关闭</span><br><span class="line">    - `-t`：为容器重新分配一个伪输入终端，通常与`-i`同时使用</span><br><span class="line">    - `-d`：以守护（后台）模式运行容器。创建一个容器在后台运行，需要使用`docker exec`进入容器`docker exec -it c2 /bin/bash`。退出后，容器不会关闭</span><br><span class="line">    - `-it`创建的容器一般称为交互式容器；`-id`创建的容器一般称为守护式容器</span><br><span class="line">    - `--name`：为创建的容器命名</span><br><span class="line"></span><br><span class="line">    创建方式一</span><br><span class="line"></span><br><span class="line">    ![image-20220803195505259](C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220803195505259.png)</span><br><span class="line"></span><br><span class="line">    创建方式二</span><br><span class="line"></span><br><span class="line">    ![image-20220803200000001](C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220803200000001.png)</span><br><span class="line"></span><br><span class="line">    ![image-20220803200040240](C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220803200040240.png)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">- 进入容器</span><br><span class="line"></span><br><span class="line">  - ```shell</span><br><span class="line">    docker exec 参数 #退出容器，容器不会关闭</span><br></pre></td></tr></table></figure></li>
+<li>&#96;&#96;&#96;shell<br>docker run 参数 版本:版本号 &lt;&#x2F;bin&#x2F;bash&gt;#默认为&#x2F;bin&#x2F;bash<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 参数说明：</span><br><span class="line"></span><br><span class="line">    - `-i`：保持容器运行。通常与`-t`同时使用。加入`it`这两个参数后，容器创建后自动进入容器中，退出容器后，容器自动关闭</span><br><span class="line">    - `-t`：为容器重新分配一个伪输入终端，通常与`-i`同时使用</span><br><span class="line">    - `-d`：以守护（后台）模式运行容器。创建一个容器在后台运行，需要使用`docker exec`进入容器`docker exec -it c2 /bin/bash`。退出后，容器不会关闭</span><br><span class="line">    - `-it`创建的容器一般称为交互式容器；`-id`创建的容器一般称为守护式容器</span><br><span class="line">    - `--name`：为创建的容器命名</span><br><span class="line"></span><br><span class="line">    创建方式一</span><br><span class="line"></span><br><span class="line">    ![image-20220803195505259](/images/Docker/image-20220803195505259.png)</span><br><span class="line"></span><br><span class="line">    创建方式二</span><br><span class="line"></span><br><span class="line">    ![image-20220803200000001](/images/Docker/image-20220803200000001.png)</span><br><span class="line"></span><br><span class="line">    ![image-20220803200040240](/images/Docker/image-20220803200040240.png)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">- 进入容器</span><br><span class="line"></span><br><span class="line">  - ```shell</span><br><span class="line">    docker exec 参数 #退出容器，容器不会关闭</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 <li><p>停止容器</p>
@@ -190,10 +189,10 @@
 <p>外部机器：Windows</p>
 <p>宿主机：虚拟机CentOS</p>
 <p>容器</p>
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220803201153495.png" alt="image-20220803201153495"></p>
+<p><img src="/images/Docker/image-20220803201153495.png" alt="image-20220803201153495"></p>
 </li>
 <li><p>容器之间想要进行数据交互？</p>
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220803201223990.png" alt="image-20220803201223990"></p>
+<p><img src="/images/Docker/image-20220803201223990.png" alt="image-20220803201223990"></p>
 </li>
 </ul>
 <p><strong>数据卷</strong></p>
@@ -201,7 +200,7 @@
 <li><p>数据卷是宿主机中的一个目录或文件</p>
 </li>
 <li><p>当容器目录和数据卷目录绑定后，对方的修改会立即同步</p>
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220803201325506.png" alt="image-20220803201325506"></p>
+<p><img src="/images/Docker/image-20220803201325506.png" alt="image-20220803201325506"></p>
 </li>
 <li><p>一个数据卷可以被多个容器同时挂载</p>
 </li>
@@ -242,7 +241,7 @@
 <li>当容器中的网络服务需要被外部机器访问时，可以将容器中提供服务的端口映射到宿主机的端口上。外部机器访问宿主机的端口，从而间接访问容器的服务</li>
 <li>这种操作称为：端口映射</li>
 </ul>
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220803223041496.png" alt="image-20220803223041496"></p>
+<p><img src="/images/Docker/image-20220803223041496.png" alt="image-20220803223041496"></p>
 <h5 id="4-1-4-部署MySQL"><a href="#4-1-4-部署MySQL" class="headerlink" title="4.1.4 部署MySQL"></a>4.1.4 部署MySQL</h5><ol>
 <li><p>搜索mysql镜像</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search mysql</span><br></pre></td></tr></table></figure>
@@ -361,7 +360,7 @@
 <li>作业控制子系统</li>
 </ul>
 <p>Linux文件系统由<strong>bootfs</strong> 和<strong>rootfs</strong> 两部分组成（fs &#x3D; file system）</p>
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220805171836981.png" alt="image-20220805171836981"></p>
+<p><img src="/images/Docker/image-20220805171836981.png" alt="image-20220805171836981"></p>
 <ul>
 <li>bootfs：包含bootloader（引导加载程序）和kernel（内核）</li>
 <li>rootfs：root文件系统，包含的就是典型的Linux 系统中的&#x2F;dev、&#x2F;proc、&#x2F;bin等标准目录和文件</li>
@@ -374,18 +373,18 @@
 <li><p>最底端是bootfs，并使用宿主机的bootfs</p>
 </li>
 <li><p>第二层是root 文件系统rootfs ，称为base iamge</p>
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220805172113360.png" alt="image-20220805172113360"></p>
+<p><img src="/images/Docker/image-20220805172113360.png" alt="image-20220805172113360"></p>
 </li>
 <li><p>然后再往上可以叠加其他的镜像文件</p>
 </li>
 </ul>
-<p>​	<img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220805172221873.png" alt="image-20220805172221873"></p>
+<p>​	<img src="/images/Docker/image-20220805172221873.png" alt="image-20220805172221873"></p>
 <ul>
 <li><strong>统一文件系统</strong>（Union File System）技术能够将不同的层整合成一个文件系统，为这些层提供了一个统一的视角，这样就隐藏了多层的存在，在用户的角度看来，只存在一个文件系统</li>
 <li>一个镜像可以放在另一个镜像的上面。位于下面的镜像称为<strong>父镜像</strong>，最底部的镜像称为<strong>基础镜像</strong></li>
 <li>当从一个镜像启动容器时，Docker会在最顶层加载一个读写文件系统作为容器</li>
 </ul>
-<p>​	<img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220805172432967.png" alt="image-20220805172432967"></p>
+<p>​	<img src="/images/Docker/image-20220805172432967.png" alt="image-20220805172432967"></p>
 <p>镜像叠加好处：方便复用</p>
 <p><strong>镜像制作：</strong></p>
 <ul>
@@ -399,7 +398,7 @@
 
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker load -i 压缩文件名称</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220805173131599.png" alt="image-20220805173131599"></p>
+<p><img src="/images/Docker/image-20220805173131599.png" alt="image-20220805173131599"></p>
 <ul>
 <li>dockerfile</li>
 </ul>
@@ -412,7 +411,7 @@
 <li><p>包含了一条条的指令</p>
 </li>
 <li><p>每一条指令构建一层，基于基础镜像，最终构建出一个新的镜像</p>
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220805181358134.png" alt="image-20220805181358134"></p>
+<p><img src="/images/Docker/image-20220805181358134.png" alt="image-20220805181358134"></p>
 </li>
 <li><p>对于开发人员，可以为开发团队提供一个完全一致的开发环境</p>
 </li>
@@ -628,11 +627,11 @@
 <li>容器化软件在任何环境中都能够始终如一地运行</li>
 <li>容器赋予了软件独立性，使其免受外在环境差异的影响，从而有助于减少团队间在相同基础设施上运行不同软件时的冲突</li>
 </ul>
-<p><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220805205126510.png" alt="image-20220805205126510"></p>
+<p><img src="/images/Docker/image-20220805205126510.png" alt="image-20220805205126510"></p>
 <p><strong>相同：</strong></p>
 <ul>
 <li>容器和虚拟机具有相似的资源隔离和分配优势</li>
-<li><img src="C:\Users\DLH\AppData\Roaming\Typora\typora-user-images\image-20220805205318218.png" alt="image-20220805205318218"></li>
+<li><img src="/images/Docker/image-20220805205318218.png" alt="image-20220805205318218"></li>
 </ul>
 <p><strong>不同：</strong></p>
 <ul>
@@ -670,7 +669,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://icecream102.github.io/2022/10/22/Docker/" data-id="cl9jlhvs10000igu03d9hhme6" data-title="Docker" class="article-share-link">Share</a>
+      <a data-url="http://icecream102.github.io/2022/10/22/Docker/" data-id="cl9jlrnx600001ou0861b8w40" data-title="Docker" class="article-share-link">Share</a>
       
       
       
@@ -721,7 +720,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://icecream102.github.io/2022/10/22/hello-world/" data-id="cl9jlhvs50001igu0hknmexnv" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://icecream102.github.io/2022/10/22/hello-world/" data-id="cl9jlrnx900011ou0aaei40fp" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
