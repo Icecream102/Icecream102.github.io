@@ -16,18 +16,18 @@
   <meta name="author" content="Luanne">
   <meta name="keywords" content="">
   
-    <meta name="description" content="0x00：参考 https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;6912030758404259854https:&#x2F;&#x2F;www.cnblogs.com&#x2F;csnd&#x2F;p&#x2F;11807592.html  0x01：XSS 原理跨站脚本攻击XSS(Cross Site Scripting)XSS攻击通常指的是通过利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页">
+    <meta name="description" content="0x01：XSS 原理跨站脚本攻击XSS(Cross Site Scripting)XSS攻击通常指的是通过利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java、 VBScript、 LiveScript、ActiveX、 Flash 或者甚至是普通的HTML。攻击成功后，攻">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XSS">
 <meta property="og:url" content="http://icecream102.github.io/2022/11/08/XSS/index.html">
 <meta property="og:site_name" content="Luanne">
-<meta property="og:description" content="0x00：参考 https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;6912030758404259854https:&#x2F;&#x2F;www.cnblogs.com&#x2F;csnd&#x2F;p&#x2F;11807592.html  0x01：XSS 原理跨站脚本攻击XSS(Cross Site Scripting)XSS攻击通常指的是通过利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页">
+<meta property="og:description" content="0x01：XSS 原理跨站脚本攻击XSS(Cross Site Scripting)XSS攻击通常指的是通过利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java、 VBScript、 LiveScript、ActiveX、 Flash 或者甚至是普通的HTML。攻击成功后，攻">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://icecream102.github.io/2022/11/08/XSS/a5daba88db174a22a5938474a5f48431.png">
 <meta property="og:image" content="http://icecream102.github.io/2022/11/08/XSS/70099b67949340a0b1ab4cbe9e8d8887.png">
 <meta property="og:image" content="http://icecream102.github.io/2022/11/08/XSS/581a17bc980845dea8b61091a3428b19.png">
 <meta property="article:published_time" content="2022-11-07T19:50:17.000Z">
-<meta property="article:modified_time" content="2022-11-07T06:58:58.503Z">
+<meta property="article:modified_time" content="2022-11-07T07:30:07.442Z">
 <meta property="article:author" content="Luanne">
 <meta property="article:tag" content="网络安全 XSS">
 <meta name="twitter:card" content="summary_large_image">
@@ -277,10 +277,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="0x00：参考"><a href="#0x00：参考" class="headerlink" title="0x00：参考"></a>0x00：参考</h1><blockquote>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6912030758404259854">https://juejin.cn/post/6912030758404259854</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/csnd/p/11807592.html">https://www.cnblogs.com/csnd/p/11807592.html</a></p>
-</blockquote>
-<h1 id="0x01：XSS-原理"><a href="#0x01：XSS-原理" class="headerlink" title="0x01：XSS 原理"></a>0x01：XSS 原理</h1><p>跨站脚本攻击XSS(Cross Site Scripting)<br>XSS攻击通常指的是通过利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java、 VBScript、 LiveScript、ActiveX、 Flash 或者甚至是普通的HTML。攻击成功后，攻击者可能得到包括但不限于<strong>更高的权限</strong>（如执行一些操作）、<strong>私密网页内容</strong>、<strong>会话</strong>和<strong>cookie</strong>等各种内容。</p>
+                <h1 id="0x01：XSS-原理"><a href="#0x01：XSS-原理" class="headerlink" title="0x01：XSS 原理"></a>0x01：XSS 原理</h1><p>跨站脚本攻击XSS(Cross Site Scripting)<br>XSS攻击通常指的是通过利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java、 VBScript、 LiveScript、ActiveX、 Flash 或者甚至是普通的HTML。攻击成功后，攻击者可能得到包括但不限于<strong>更高的权限</strong>（如执行一些操作）、<strong>私密网页内容</strong>、<strong>会话</strong>和<strong>cookie</strong>等各种内容。</p>
 <h1 id="0x02：XSS类型"><a href="#0x02：XSS类型" class="headerlink" title="0x02：XSS类型"></a>0x02：XSS类型</h1><h2 id="1-存储型"><a href="#1-存储型" class="headerlink" title="1.存储型"></a>1.存储型</h2><p><strong>持久化</strong>，代码是存储在<strong>服务器</strong>中的，如在个人信息或发表文章等地方，插入代码，如果没有过滤或过滤不严，那么这些代码将储存到服务器中，用户访问该页面的时候触发代码执行。<br>这种XSS比较危险，容易造成蠕虫，盗窃cookie。</p>
 <p><img src="/2022/11/08/XSS/a5daba88db174a22a5938474a5f48431.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h2 id="2-反射型"><a href="#2-反射型" class="headerlink" title="2.反射型"></a>2.反射型</h2><p><strong>非持久化</strong>，需要欺骗用户自己去<strong>点击链接</strong>才能触发XSS代码（服务器中没有这样的页面和内容），一般容易出现在<strong>搜索页面</strong>。<br>反射型XSS大多数是用来盗取用户的Cookie信息。<br><img src="/2022/11/08/XSS/70099b67949340a0b1ab4cbe9e8d8887.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
@@ -342,6 +339,9 @@
 <li>Tom 利用获取到的cookie就可以以Alice的身份登录Bob的站点，如果脚本的功更强大的话，Tom还可以对Alice的浏览器做控制并进一步利用漏洞控制</li>
 </ol>
 <h1 id="0x08-XSS漏洞的危害"><a href="#0x08-XSS漏洞的危害" class="headerlink" title="0x08: XSS漏洞的危害"></a>0x08: XSS漏洞的危害</h1><p>存储型的XSS危害最大。因为他存储在服务器端，所以不需要我们和被攻击者有任何接触，只要被攻击者访问了该页面就会遭受攻击。<br>反射型和DOM型的XSS则需要我们去诱使用户点击我们构造的恶意的URL，需要我们和用户有直接或者间接的接触，比如利用社会工程学或者利用在其他网页挂马的方式。<br><img src="/2022/11/08/XSS/581a17bc980845dea8b61091a3428b19.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h1 id><a href="#" class="headerlink" title></a></h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6912030758404259854">https://juejin.cn/post/6912030758404259854</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/csnd/p/11807592.html">https://www.cnblogs.com/csnd/p/11807592.html</a></p>
+</blockquote>
 
                 
               </div>
@@ -410,12 +410,6 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
-                    
-                      <a href="/2022/11/08/%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81/" title="恶意代码">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">恶意代码</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
                     
                   </article>
                   <article class="post-next col-6">
