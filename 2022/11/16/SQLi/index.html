@@ -1,0 +1,734 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/OIP-C.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Luanne">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="[TOC] 学习SQLi前置知识：  了解SQL语法  URL编码：    单引号  ‘  %27  井号     #  %23  空格         %20    SQLi基本认识SQL注入本质上来讲就是拼接字符串，通过输入额外的信息破坏外后端脚本原有的查询语句结构，从而达成注入的目的。 e.g. 1$query&#x3D;&quot;select name,age,gender from t_stud">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQLi">
+<meta property="og:url" content="http://icecream102.github.io/2022/11/16/SQLi/index.html">
+<meta property="og:site_name" content="Luanne">
+<meta property="og:description" content="[TOC] 学习SQLi前置知识：  了解SQL语法  URL编码：    单引号  ‘  %27  井号     #  %23  空格         %20    SQLi基本认识SQL注入本质上来讲就是拼接字符串，通过输入额外的信息破坏外后端脚本原有的查询语句结构，从而达成注入的目的。 e.g. 1$query&#x3D;&quot;select name,age,gender from t_stud">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://icecream102.github.io/2022/11/16/SQLi/image-20221115225025830.png">
+<meta property="og:image" content="http://icecream102.github.io/2022/11/16/SQLi/image-20221115232133039.png">
+<meta property="og:image" content="http://icecream102.github.io/2022/11/16/SQLi/image-20221115232220340.png">
+<meta property="og:image" content="http://icecream102.github.io/2022/11/16/SQLi/image-20221115232230246.png">
+<meta property="og:image" content="http://icecream102.github.io/2022/11/16/SQLi/image-20221115232303180.png">
+<meta property="article:published_time" content="2022-11-16T03:41:24.000Z">
+<meta property="article:modified_time" content="2022-11-15T16:35:29.798Z">
+<meta property="article:author" content="Luanne">
+<meta property="article:tag" content="SQL注入">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://icecream102.github.io/2022/11/16/SQLi/image-20221115225025830.png">
+  
+  
+  
+  <title>SQLi - Luanne</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"icecream102.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SQLi"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-15 22:41" pubdate>
+          2022年11月15日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          42 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">SQLi</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>[TOC]</p>
+<p>学习SQLi前置知识：</p>
+<ol>
+<li><p>了解SQL语法</p>
+</li>
+<li><p>URL编码：</p>
+</li>
+</ol>
+<ul>
+<li><p>单引号  ‘  %27</p>
+</li>
+<li><p>井号     #  %23</p>
+</li>
+<li><p>空格         %20</p>
+</li>
+</ul>
+<p><img src="/2022/11/16/SQLi/image-20221115225025830.png" srcset="/img/loading.gif" lazyload alt="image-20221115225025830"></p>
+<h1 id="SQLi基本认识"><a href="#SQLi基本认识" class="headerlink" title="SQLi基本认识"></a>SQLi基本认识</h1><p>SQL注入本质上来讲就是<strong>拼接字符串</strong>，通过输入额外的信息破坏外后端脚本原有的查询语句结构，从而达成注入的目的。</p>
+<p>e.g.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$query</span>=<span class="hljs-string">&quot;select name,age,gender from t_students where id=<span class="hljs-subst">&#123;$_GET[&#x27;id&#x27;]&#125;</span>&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>正常输入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">http://www.abcd.com/query.php?id=1<br></code></pre></td></tr></table></figure>
+
+<p>后端的查询语句实际上是这样的：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$query</span>=<span class="hljs-string">&quot;select name,age,gender from t_students where id=1&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>但攻击者往往不会这样中规中矩，他们往往会构造这样的输入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">http://www.abcd.com/query.php?id=-1 union select 1,database(),3 --+<br></code></pre></td></tr></table></figure>
+
+<p>此时后端的查询语句变成：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$query</span>=<span class="hljs-string">&quot;select name,age,gender from t_students where id=-1 union select 1,database(),3 -- &quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>此时攻击者就成功获取到了数据库名称。</p>
+<p>通过上面的例子我们可以看出，攻击者构造的查询参数在SQL语句中没有被当作一个字符串对待，而是具有了实际的功能特性，这是PHP的语法决定的，它只是简单地将用户的输入与后端预定义的语句做了一个拼接，将拼接的结果整体作为一条SQL的查询语句。正是这个特性导致了SQL注入的产生。</p>
+<h1 id="SQLi原理"><a href="#SQLi原理" class="headerlink" title="SQLi原理"></a>SQLi原理</h1><h2 id="恶意拼接查询"><a href="#恶意拼接查询" class="headerlink" title="恶意拼接查询"></a>恶意拼接查询</h2><p>SQL 语句可以查询、插入、更新和删除数据，且使用分号来分隔不同的命令。</p>
+<p>e.g.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> user_id <span class="hljs-operator">=</span> $user_id<br></code></pre></td></tr></table></figure>
+
+<p>其中，user_id 是传入的参数，如果传入的参数值为“1234; DELETE FROM users”，那么最终的查询语句会变为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> user_id <span class="hljs-operator">=</span> <span class="hljs-number">1234</span>; <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> users<br></code></pre></td></tr></table></figure>
+
+<p>如果以上语句执行，则会删除 users 表中的所有数据。</p>
+<h2 id="利用注释执行非法命令"><a href="#利用注释执行非法命令" class="headerlink" title="利用注释执行非法命令"></a>利用注释执行非法命令</h2><p>SQL 语句中可以插入注释。</p>
+<p>e.g.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">AS</span> <span class="hljs-string">&#x27;num&#x27;</span> <span class="hljs-keyword">FROM</span> game_score <span class="hljs-keyword">WHERE</span> game_id<span class="hljs-operator">=</span><span class="hljs-number">24411</span> <span class="hljs-keyword">AND</span> version<span class="hljs-operator">=</span>$version<br></code></pre></td></tr></table></figure>
+
+<p>如果 version 包含了恶意的字符串<code>&#39;-1&#39; OR 3 AND SLEEP(500)--</code>，那么最终查询语句会变为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">AS</span> <span class="hljs-string">&#x27;num&#x27;</span> <span class="hljs-keyword">FROM</span> game_score <span class="hljs-keyword">WHERE</span> game_id<span class="hljs-operator">=</span><span class="hljs-number">24411</span> <span class="hljs-keyword">AND</span> version<span class="hljs-operator">=</span><span class="hljs-string">&#x27;-1&#x27;</span> <span class="hljs-keyword">OR</span> <span class="hljs-number">3</span> <span class="hljs-keyword">AND</span> SLEEP(<span class="hljs-number">500</span>)<span class="hljs-comment">--</span><br></code></pre></td></tr></table></figure>
+
+<p>以上恶意查询只是想耗尽系统资源，SLEEP(500) 将导致 SQL 语句一直运行。如果其中添加了修改、删除数据的恶意指令，那么将会造成更大的破坏。</p>
+<h2 id="传入非法参数"><a href="#传入非法参数" class="headerlink" title="传入非法参数"></a>传入非法参数</h2><p>SQL 语句中传入的字符串参数是用单引号引起来的，如果字符串本身包含单引号而没有被处理，那么可能会篡改原本 SQL 语句的作用。</p>
+<p>e.g.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> user_name <span class="hljs-keyword">WHERE</span> user_name <span class="hljs-operator">=</span> $user_name<br></code></pre></td></tr></table></figure>
+
+<p>如果 user_name 传入参数值为 G’chen，那么最终的查询语句会变为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> user_name <span class="hljs-keyword">WHERE</span> user_name <span class="hljs-operator">=</span><span class="hljs-string">&#x27;G&#x27;</span>chen<span class="hljs-string">&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>一般情况下，以上语句会执行出错，这样的语句风险比较小。虽然没有语法错误，但可能会恶意产生 SQL 语句，并且以一种你不期望的方式运行。</p>
+<h2 id="添加额外条件"><a href="#添加额外条件" class="headerlink" title="添加额外条件"></a>添加额外条件</h2><p>在 SQL 语句中添加一些额外条件，以此来改变执行行为。条件一般为真值表达式。</p>
+<p>e.g.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">UPDATE</span> users <span class="hljs-keyword">SET</span> userpass<span class="hljs-operator">=</span><span class="hljs-string">&#x27;$userpass&#x27;</span> <span class="hljs-keyword">WHERE</span> user_id<span class="hljs-operator">=</span>$user_id;<br></code></pre></td></tr></table></figure>
+
+<p>如果 user_id 被传入恶意的字符串“1234 OR TRUE”，那么最终的 SQL 语句会变为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">UPDATE</span> users <span class="hljs-keyword">SET</span> userpass<span class="hljs-operator">=</span> <span class="hljs-string">&#x27;123456&#x27;</span> <span class="hljs-keyword">WHERE</span> user_id<span class="hljs-operator">=</span><span class="hljs-number">1234</span> <span class="hljs-keyword">OR</span> <span class="hljs-literal">TRUE</span>;<br></code></pre></td></tr></table></figure>
+
+<p>这将更改所有用户的密码。</p>
+<h1 id="SQLi分类"><a href="#SQLi分类" class="headerlink" title="SQLi分类"></a>SQLi分类</h1><h2 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h2><p>传入的参数在后端代码中被引号引起来</p>
+<h2 id="数字型注入"><a href="#数字型注入" class="headerlink" title="数字型注入"></a>数字型注入</h2><p>传入的参数在后端代码中没有被引起来</p>
+<h2 id="GET型注入"><a href="#GET型注入" class="headerlink" title="GET型注入"></a>GET型注入</h2><p>注入点的参数是同通过GET请求发送到后端进行处理的</p>
+<h3 id="url注入"><a href="#url注入" class="headerlink" title="url注入"></a>url注入</h3><p>注入点在url中</p>
+<h3 id="请求头注入"><a href="#请求头注入" class="headerlink" title="请求头注入"></a>请求头注入</h3><p>注入点在用户请求头中</p>
+<h2 id="POST型注入"><a href="#POST型注入" class="headerlink" title="POST型注入"></a>POST型注入</h2><p>POST注入与GET注入不同的地方在于请求的参数是放在请求体中而不是在url中直接显示给用户的。</p>
+<h2 id="有回显的注入"><a href="#有回显的注入" class="headerlink" title="有回显的注入"></a>有回显的注入</h2><h3 id="联合查询注入"><a href="#联合查询注入" class="headerlink" title="联合查询注入"></a>联合查询注入</h3><h1 id="MySQL语法"><a href="#MySQL语法" class="headerlink" title="MySQL语法"></a>MySQL语法</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 连接数据库</span><br>mysql <span class="hljs-operator">-</span>u用户名 <span class="hljs-operator">-</span>p密码;<br><br><span class="hljs-comment">-- 查看数据库列表</span><br><span class="hljs-keyword">show</span> databases;<br><br><span class="hljs-comment">-- 创建数据库</span><br><span class="hljs-keyword">create</span> database 数据库名;<br><br><span class="hljs-comment">-- 删除数据库</span><br><span class="hljs-keyword">drop</span> database 数据库名;<br><br><span class="hljs-comment">-- 修改数据库</span><br><span class="hljs-keyword">alter</span> database 数据库名 charset<span class="hljs-operator">=</span>编码格式;<br><br><span class="hljs-comment">-- 使用数据库</span><br>use 数据库名;<br><br><span class="hljs-comment">-- 查看当前数据库下所有数据表</span><br><span class="hljs-keyword">show</span> tables;<br><br><span class="hljs-comment">-- 创建表</span><br><span class="hljs-keyword">drop</span> <span class="hljs-keyword">table</span> if <span class="hljs-keyword">exists</span> 表名;<br><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> 表名(<br>	字段名		数据类型	约束<br>);<br><br><span class="hljs-comment">-- 删除表</span><br><span class="hljs-keyword">drop</span> <span class="hljs-keyword">table</span> 表名;<br><br><span class="hljs-comment">-- 修改表(若省略where条件子句，全表数据被修改)</span><br><span class="hljs-keyword">update</span> 表名 <span class="hljs-keyword">set</span> 列名<span class="hljs-operator">=</span>值, 列名<span class="hljs-operator">=</span>值... <span class="hljs-keyword">where</span> 条件;<br><br><span class="hljs-comment">-- 将alice改为bob</span><br><span class="hljs-keyword">update</span> student <span class="hljs-keyword">set</span> name<span class="hljs-operator">=</span>&quot;bob&quot; <span class="hljs-keyword">where</span> name<span class="hljs-operator">=</span>&quot;alice&quot;;<br><br><span class="hljs-comment">-- 插入</span><br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> 表名 (列名, 列名...) <span class="hljs-keyword">value</span> (值, 值...);<br><span class="hljs-comment">-- 插入完整数据记录</span><br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> student (name,email,age) <span class="hljs-keyword">value</span> (&quot;alice&quot;, &quot;alice@gmail.com&quot;, <span class="hljs-number">20</span>);<br><span class="hljs-comment">-- 插入查询结果</span><br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> student(name,email,age) <span class="hljs-keyword">select</span> name,email,age <span class="hljs-keyword">from</span> student;<br><br><span class="hljs-comment">-- 删除记录(若省略where子句，全表数据被删除)</span><br><span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> 表名 <span class="hljs-keyword">where</span> 条件;<br><span class="hljs-comment">-- 删除 id 为 2 的学生信息</span><br><span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> student <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">2</span>;<br><br><span class="hljs-comment">-- 消除重复元素</span><br><span class="hljs-keyword">select</span> <span class="hljs-keyword">distinct</span> 列名, 列名... <span class="hljs-keyword">from</span> 表名;<br><span class="hljs-keyword">select</span> <span class="hljs-keyword">distinct</span> productName,brand <span class="hljs-keyword">from</span> product;<br><br><span class="hljs-comment">-- 算术运算符 + - * /</span><br><span class="hljs-comment">-- 查询所有货物的id，名称和批发价（折扣价=销售价*折扣）</span><br><span class="hljs-keyword">select</span> id,productName,salePrice<span class="hljs-operator">*</span>disCount <span class="hljs-keyword">from</span> product;<br><br><span class="hljs-comment">-- 设置别名</span><br><span class="hljs-keyword">select</span> 列名 <span class="hljs-keyword">as</span> 别名 <span class="hljs-keyword">from</span> 表名 <span class="hljs-keyword">where</span> 条件;<br><span class="hljs-keyword">select</span> 列名 别名 <span class="hljs-keyword">from</span> 表名 <span class="hljs-keyword">where</span> 条件;<br><span class="hljs-keyword">select</span> id,productName,salePrice<span class="hljs-operator">*</span>disCount <span class="hljs-keyword">as</span> price <span class="hljs-keyword">from</span> product;<br><br><span class="hljs-comment">-- 设置查询结果的显示格式 concat</span><br><span class="hljs-keyword">select</span> concat(product,&quot;商品零售价：&quot;,salePrice) <span class="hljs-keyword">from</span> product;<br><br><span class="hljs-comment">-- 比较运算符 = &gt; &gt;= &lt; &lt;= !=</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> product <span class="hljs-keyword">where</span> productName<span class="hljs-operator">=</span>&quot;apple&quot;;<br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span>,salePrice<span class="hljs-operator">*</span>disCount <span class="hljs-keyword">from</span> product <span class="hljs-keyword">where</span> salePrice<span class="hljs-operator">*</span>disCount<span class="hljs-operator">&gt;</span><span class="hljs-number">350</span>;<br><br><span class="hljs-comment">-- 逻辑运算符 and or not</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> product <span class="hljs-keyword">where</span> salePrice<span class="hljs-operator">&gt;=</span><span class="hljs-number">300</span> <span class="hljs-keyword">and</span> salePrice<span class="hljs-operator">&lt;=</span><span class="hljs-number">400</span>;<br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> product <span class="hljs-keyword">where</span> dir_id<span class="hljs-operator">=</span><span class="hljs-number">2</span> <span class="hljs-keyword">or</span> dir_id<span class="hljs-operator">=</span><span class="hljs-number">4</span>;<br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> product <span class="hljs-keyword">where</span> <span class="hljs-keyword">not</span> dir_id<span class="hljs-operator">=</span><span class="hljs-number">2</span>;<br><br><span class="hljs-comment">-- 范围 between and是闭区间</span><br><span class="hljs-comment">-- 查询零售价不在 300 - 400 之间的货品信息</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> produdct <span class="hljs-keyword">where</span> <span class="hljs-keyword">not</span> salePrice <span class="hljs-keyword">between</span> <span class="hljs-number">300</span> <span class="hljs-keyword">and</span> <span class="hljs-number">400</span>;<br><br><span class="hljs-comment">-- 集合 in</span><br><span class="hljs-comment">-- 查询分类编号为 2，4 的所有货品的 id，货品名称</span><br><span class="hljs-keyword">select</span> id,productName <span class="hljs-keyword">from</span> product <span class="hljs-keyword">where</span> dir_id <span class="hljs-keyword">in</span> (<span class="hljs-number">2</span>,<span class="hljs-number">4</span>);<br><span class="hljs-comment">-- 查询分类编号不为 2, 4 的所有货品的 id，货品名称</span><br><span class="hljs-keyword">select</span> id,productName <span class="hljs-keyword">from</span> product <span class="hljs-keyword">where</span> <span class="hljs-keyword">not</span> dir_id <span class="hljs-keyword">in</span> (<span class="hljs-number">2</span>,<span class="hljs-number">4</span>);<br><br><span class="hljs-comment">-- 判空</span><br><span class="hljs-comment">-- 使用 = 来判断只能判断空字符串，不能判断 null；而使用 IS NULL 只能判断 null 值，不能判断空字符串。</span><br><span class="hljs-comment">-- 查询商品名为NULL的所有商品信息</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> product <span class="hljs-keyword">where</span> productName <span class="hljs-keyword">is</span> <span class="hljs-keyword">null</span>;<br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> product <span class="hljs-keyword">where</span> supplier<span class="hljs-operator">=</span>&quot;&quot;;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="表的约束"><a href="#表的约束" class="headerlink" title="表的约束"></a>表的约束</h2><p>1）非空约束：NOT NULL，不允许某列的内容为空；<br>2）设置列的默认值：DEFAULT；<br>3）唯一约束：UNIQUE，该表中，该列的内容必须唯一；<br>4）主键约束：PRIMARY KEY，非空且唯一；<br>5）主键自增长：AUTO_INCREMENT，从1开始，步长为1；<br>6）外键约束：FOREIGN KEY，A表中的外键列。A表中的外键列的值必须参照于B表中的某一列（B表主键）</p>
+<h2 id="where-x2F-group-by-x2F-having-x2F-order-by"><a href="#where-x2F-group-by-x2F-having-x2F-order-by" class="headerlink" title="where &#x2F; group by &#x2F; having &#x2F; order by"></a>where &#x2F; group by &#x2F; having &#x2F; order by</h2><p><strong>where：</strong>数据库中常用的是where关键字，用于在初始表中筛选查询。它是一个约束声明，用于约束数据，在返回结果集之前起作用。</p>
+<p>**group by:**对select查询出来的结果集按照某个字段或者表达式进行分组，获得一组组的集合，然后从每组中取出一个指定字段或者表达式的值。</p>
+<p><strong>having：</strong>用于对where和group by查询出来的分组经行过滤，查出满足条件的分组结果。它是一个过滤声明，是在查询返回结果集以后对查询结果进行的过滤操作。</p>
+<p><strong>执行顺序</strong>：select –&gt;where –&gt; group by–&gt; having–&gt;order by</p>
+<h2 id="UPDATE更新"><a href="#UPDATE更新" class="headerlink" title="UPDATE更新"></a>UPDATE更新</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">UPDATE</span> runoob_tb1 <span class="hljs-keyword">SET</span> runoob_title<span class="hljs-operator">=</span><span class="hljs-string">&#x27;aaa&#x27;</span> <span class="hljs-keyword">WHERE</span> runoob_id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br><span class="hljs-keyword">UPDATE</span> runoob_tb1 <span class="hljs-keyword">SET</span> field<span class="hljs-operator">=</span>REPLACE(field)<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1 id="sqli-labs通关记录"><a href="#sqli-labs通关记录" class="headerlink" title="sqli-labs通关记录"></a>sqli-labs通关记录</h1><h2 id="Less-1-GET-Error-based-Single-quotes-String"><a href="#Less-1-GET-Error-based-Single-quotes-String" class="headerlink" title="Less-1: GET-Error based-Single quotes-String"></a>Less-1: GET-Error based-Single quotes-String</h2><p><img src="/2022/11/16/SQLi/image-20221115232133039.png" srcset="/img/loading.gif" lazyload alt="image-20221115232133039"></p>
+<p><img src="/2022/11/16/SQLi/image-20221115232220340.png" srcset="/img/loading.gif" lazyload alt="image-20221115232220340"></p>
+<p><img src="/2022/11/16/SQLi/image-20221115232230246.png" srcset="/img/loading.gif" lazyload alt="image-20221115232230246"></p>
+<p><img src="/2022/11/16/SQLi/image-20221115232303180.png" srcset="/img/loading.gif" lazyload alt="image-20221115232303180"></p>
+<p>报错信息：<code>&#39;&#39;1&#39;&#39; LIMIT 0,1&#39; </code></p>
+<p>最外层单引号是为了表示报错内容，去掉：<code>&#39;1&#39;&#39; LIMIT 0,1</code></p>
+<p>此时最外层单引号表示用户输入内容，去掉：<code>1&#39; LIMIT 0,1</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">$id<span class="hljs-operator">=</span>$_GET[<span class="hljs-string">&#x27;id&#x27;</span>];<br>$<span class="hljs-keyword">sql</span><span class="hljs-operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;<br></code></pre></td></tr></table></figure>
+
+<p>输入<code>1&#39;</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">WHERE</span> id<span class="hljs-operator">=</span><span class="hljs-string">&#x27;1&#x27;&#x27; LIMIT 0,1</span><br></code></pre></td></tr></table></figure>
+
+<p>不符合SQL语法，报错</p>
+<h1 id="SQLi防御"><a href="#SQLi防御" class="headerlink" title="SQLi防御"></a>SQLi防御</h1><p>（待补充…）</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_32731075/article/details/117359544">https://blog.csdn.net/qq_32731075/article/details/117359544</a></p>
+<p><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/8283.html">http://c.biancheng.net/view/8283.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zzvar/article/details/115675248">https://blog.csdn.net/zzvar/article/details/115675248</a></p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/SQL%E6%B3%A8%E5%85%A5/">#SQL注入</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SQLi</div>
+      <div>http://icecream102.github.io/2022/11/16/SQLi/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Luanne</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/11/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E5%90%8D%E8%AF%8D/" title="网络安全领域名词">
+                        <span class="hidden-mobile">网络安全领域名词</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
